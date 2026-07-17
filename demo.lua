@@ -1,34 +1,19 @@
---[[
-    RexLib Example Usage
-    Load the library and build a full UI with all element types
-]]
-
-local RexLib = loadstring(game:HttpGet("YOUR_RAW_URL_HERE"))() -- replace with your raw paste URL
--- OR if testing locally:
--- local RexLib = loadfile("RexLib.lua")()
-
--- ===================== CREATE WINDOW =====================
+local RexLib = loadstring(game:HttpGet("YOUR_RAW_URL_HERE"))()
 local Window = RexLib:CreateWindow({
     Title = "Rex Hub v2.0",
     Size = UDim2.new(0, 540, 0, 400),
 })
-
--- Startup notification
 RexLib:Notify({
     Title = "Rex Hub",
     Message = "Loaded successfully — welcome back.",
     Duration = 3,
     Type = "Success"
 })
-
--- ===================== COMBAT TAB =====================
 local CombatTab = Window:CreateTab({
     Name = "Combat",
     Icon = "⚔"
 })
-
 CombatTab:CreateSection("Targeting")
-
 local AimbotToggle = CombatTab:CreateToggle({
     Name = "Target Acquisition",
     Default = false,
@@ -40,7 +25,6 @@ local AimbotToggle = CombatTab:CreateToggle({
         end
     end
 })
-
 local FOVSlider = CombatTab:CreateSlider({
     Name = "Acquisition FOV",
     Min = 10,
@@ -53,7 +37,6 @@ local FOVSlider = CombatTab:CreateSlider({
         print("[Combat] FOV set to:", val)
     end
 })
-
 local SmoothSlider = CombatTab:CreateSlider({
     Name = "Smoothing Factor",
     Min = 0,
@@ -65,7 +48,6 @@ local SmoothSlider = CombatTab:CreateSlider({
         print("[Combat] Smoothing:", val)
     end
 })
-
 local TargetPartDrop = CombatTab:CreateDropdown({
     Name = "Target Part",
     Options = {"Head", "HumanoidRootPart", "Torso", "UpperTorso", "LowerTorso"},
@@ -75,9 +57,7 @@ local TargetPartDrop = CombatTab:CreateDropdown({
         print("[Combat] Targeting:", opt)
     end
 })
-
 CombatTab:CreateSection("Reach")
-
 local ReachToggle = CombatTab:CreateToggle({
     Name = "Extended Reach",
     Default = false,
@@ -86,7 +66,6 @@ local ReachToggle = CombatTab:CreateToggle({
         print("[Combat] Reach:", state)
     end
 })
-
 local ReachSlider = CombatTab:CreateSlider({
     Name = "Reach Distance",
     Min = 5,
@@ -99,15 +78,11 @@ local ReachSlider = CombatTab:CreateSlider({
         print("[Combat] Reach distance:", val)
     end
 })
-
--- ===================== VISUALS TAB =====================
 local VisualsTab = Window:CreateTab({
     Name = "Visuals",
     Icon = "👁"
 })
-
 VisualsTab:CreateSection("Entity Overlay")
-
 local ESPToggle = VisualsTab:CreateToggle({
     Name = "Entity State Panel",
     Default = false,
@@ -116,7 +91,6 @@ local ESPToggle = VisualsTab:CreateToggle({
         print("[Visuals] ESP:", state)
     end
 })
-
 local ESPColorPicker = VisualsTab:CreateColorPicker({
     Name = "ESP Color",
     Default = Color3.fromRGB(88, 101, 242),
@@ -125,7 +99,6 @@ local ESPColorPicker = VisualsTab:CreateColorPicker({
         print("[Visuals] ESP Color:", color)
     end
 })
-
 local BoxDrop = VisualsTab:CreateDropdown({
     Name = "Box Type",
     Options = {"2D", "3D", "Corners", "None"},
@@ -135,9 +108,7 @@ local BoxDrop = VisualsTab:CreateDropdown({
         print("[Visuals] Box type:", opt)
     end
 })
-
 VisualsTab:CreateSection("Occlusion")
-
 local WallToggle = VisualsTab:CreateToggle({
     Name = "Occlusion Override",
     Default = false,
@@ -146,7 +117,6 @@ local WallToggle = VisualsTab:CreateToggle({
         print("[Visuals] Occlusion override:", state)
     end
 })
-
 local ChamsDrop = VisualsTab:CreateDropdown({
     Name = "Render Mode",
     Options = {"Highlight", "SurfaceAppearance", "Wireframe", "ForceField"},
@@ -156,7 +126,6 @@ local ChamsDrop = VisualsTab:CreateDropdown({
         print("[Visuals] Render mode:", opt)
     end
 })
-
 local ChamsColor = VisualsTab:CreateColorPicker({
     Name = "Overlay Color",
     Default = Color3.fromRGB(255, 60, 80),
@@ -165,7 +134,6 @@ local ChamsColor = VisualsTab:CreateColorPicker({
         print("[Visuals] Overlay color:", color)
     end
 })
-
 local TransSlider = VisualsTab:CreateSlider({
     Name = "Overlay Transparency",
     Min = 0,
@@ -178,15 +146,11 @@ local TransSlider = VisualsTab:CreateSlider({
         print("[Visuals] Transparency:", val)
     end
 })
-
--- ===================== MOVEMENT TAB =====================
 local MoveTab = Window:CreateTab({
     Name = "Movement",
     Icon = "🏃"
 })
-
 MoveTab:CreateSection("Speed")
-
 local SpeedToggle = MoveTab:CreateToggle({
     Name = "Speed Modifier",
     Default = false,
@@ -199,7 +163,6 @@ local SpeedToggle = MoveTab:CreateToggle({
         end
     end
 })
-
 local SpeedSlider = MoveTab:CreateSlider({
     Name = "Walk Speed",
     Min = 16,
@@ -213,9 +176,7 @@ local SpeedSlider = MoveTab:CreateSlider({
         end
     end
 })
-
 MoveTab:CreateSection("Aerial")
-
 local FlyToggle = MoveTab:CreateToggle({
     Name = "Flight",
     Default = false,
@@ -224,7 +185,6 @@ local FlyToggle = MoveTab:CreateToggle({
         print("[Movement] Flight:", state)
     end
 })
-
 local FlySpeedSlider = MoveTab:CreateSlider({
     Name = "Flight Speed",
     Min = 10,
@@ -236,7 +196,6 @@ local FlySpeedSlider = MoveTab:CreateSlider({
         print("[Movement] Flight speed:", val)
     end
 })
-
 local JumpSlider = MoveTab:CreateSlider({
     Name = "Jump Power",
     Min = 50,
@@ -257,15 +216,11 @@ local NoClipToggle = MoveTab:CreateToggle({
         print("[Movement] Noclip:", state)
     end
 })
-
--- ===================== MISC TAB =====================
 local MiscTab = Window:CreateTab({
     Name = "Misc",
     Icon = "🔧"
 })
-
 MiscTab:CreateSection("Utilities")
-
 MiscTab:CreateButton({
     Name = "Rejoin Server",
     Callback = function()
@@ -275,7 +230,6 @@ MiscTab:CreateButton({
         end)
     end
 })
-
 MiscTab:CreateButton({
     Name = "Copy Server Link",
     Callback = function()
@@ -284,7 +238,6 @@ MiscTab:CreateButton({
         RexLib:Notify({Title = "Misc", Message = "Server link copied to clipboard", Duration = 2, Type = "Success"})
     end
 })
-
 MiscTab:CreateInput({
     Name = "Teleport PlaceID",
     Placeholder = "Enter PlaceID...",
@@ -299,19 +252,15 @@ MiscTab:CreateInput({
         end
     end
 })
-
 MiscTab:CreateSection("Binds")
-
 MiscTab:CreateKeybind({
     Name = "Toggle UI",
     Default = Enum.KeyCode.RightShift,
     Flag = "UIToggle",
     OnPress = function()
-        -- This would toggle the UI visibility
         print("[Misc] UI toggle pressed")
     end
 })
-
 MiscTab:CreateKeybind({
     Name = "Panic Key (Destroy)",
     Default = Enum.KeyCode.F9,
@@ -320,9 +269,7 @@ MiscTab:CreateKeybind({
         Window:Destroy()
     end
 })
-
 MiscTab:CreateSection("Info")
-
 MiscTab:CreateParagraph({
     Title = "Rex Hub v2.0",
     Content = "Built with RexLib. Minimal. Functional. No bullshit."
