@@ -1,13 +1,3 @@
---[[
-    RexLib - Minimal GUI Library
-    Colors:
-        Main BG:  #151a28
-        Surface:  #23283a
-        Border:   #444858
-        Text:     #e5ebfa
-        Sub Text: #757c93
-]]
-
 local RexLib = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
