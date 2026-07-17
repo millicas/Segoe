@@ -1,279 +1,326 @@
-local RexLib = loadstring(game:HttpGet("YOUR_RAW_URL_HERE"))()
-local Window = RexLib:CreateWindow({
-    Title = "Rex Hub v2.0",
-    Size = UDim2.new(0, 540, 0, 400),
+local Segoe = loadstring(game:HttpGet("https://raw.githubusercontent.com/millicas/Segoe/refs/heads/main/Segoe.lua"))()
+local Window = Segoe:CreateWindow({
+    Title = "Segoe Demo",
+    Size = UDim2.new(0, 780, 0, 520),
 })
-RexLib:Notify({
-    Title = "Rex Hub",
-    Message = "Loaded successfully — welcome back.",
-    Duration = 3,
-    Type = "Success"
+Segoe:Notify({
+    Title = "Welcome!",
+    Message = "Segoe UI Demo loaded successfully",
+    Type = "Success",
+    Duration = 3
 })
-local CombatTab = Window:CreateTab({
-    Name = "Combat",
-    Icon = "⚔"
+local Tab1 = Window:CreateTab({Name = "Basic"})
+Tab1:CreateSection("Buttons & Labels")
+Tab1:CreateLabel("This is a simple label element")
+Tab1:CreateButton({
+    Name = "Click Me!",
+    Callback = function()
+        Segoe:Notify({
+            Title = "Button Clicked",
+            Message = "You clicked the button!",
+            Type = "Success"
+        })
+    end
 })
-CombatTab:CreateSection("Targeting")
-local AimbotToggle = CombatTab:CreateToggle({
-    Name = "Target Acquisition",
+Tab1:CreateParagraph({
+    Title = "What is Segoe?",
+    Content = "A modern, minimalist UI library with smooth animations and a clean design aesthetic."
+})
+local Tab2 = Window:CreateTab({Name = "Toggles"})
+Tab2:CreateSection("Toggle Controls")
+local toggle1 = Tab2:CreateToggle({
+    Name = "Enable Feature",
     Default = false,
-    Flag = "Aimbot",
-    Callback = function(state)
-        print("[Combat] Target Acquisition:", state)
-        if state then
-            RexLib:Notify({Title = "Combat", Message = "Target acquisition enabled", Type = "Info"})
-        end
+    Flag = "FeatureToggle",
+    Callback = function(value)
+        print("Feature toggle:", value)
+        Segoe:Notify({
+            Message = "Feature " .. (value and "enabled" or "disabled"),
+            Duration = 2
+        })
     end
 })
-local FOVSlider = CombatTab:CreateSlider({
-    Name = "Acquisition FOV",
-    Min = 10,
-    Max = 800,
-    Default = 120,
-    Increment = 5,
-    Suffix = "px",
-    Flag = "AimFOV",
-    Callback = function(val)
-        print("[Combat] FOV set to:", val)
+local toggle2 = Tab2:CreateToggle({
+    Name = "Auto Save",
+    Default = true,
+    Flag = "AutoSave",
+    Callback = function(value)
+        print("Auto save:", value)
     end
 })
-local SmoothSlider = CombatTab:CreateSlider({
-    Name = "Smoothing Factor",
+Tab2:CreateButton({
+    Name = "Toggle First Switch",
+    Callback = function()
+        toggle1:Set(not toggle1.Value)
+    end
+})
+local Tab3 = Window:CreateTab({Name = "Sliders"})
+Tab3:CreateSection("Numeric Inputs")
+local speedSlider = Tab3:CreateSlider({
+    Name = "Speed",
     Min = 0,
-    Max = 1,
-    Default = 0.3,
-    Increment = 0.05,
-    Flag = "AimSmooth",
-    Callback = function(val)
-        print("[Combat] Smoothing:", val)
-    end
-})
-local TargetPartDrop = CombatTab:CreateDropdown({
-    Name = "Target Part",
-    Options = {"Head", "HumanoidRootPart", "Torso", "UpperTorso", "LowerTorso"},
-    Default = "Head",
-    Flag = "TargetPart",
-    Callback = function(opt)
-        print("[Combat] Targeting:", opt)
-    end
-})
-CombatTab:CreateSection("Reach")
-local ReachToggle = CombatTab:CreateToggle({
-    Name = "Extended Reach",
-    Default = false,
-    Flag = "Reach",
-    Callback = function(state)
-        print("[Combat] Reach:", state)
-    end
-})
-local ReachSlider = CombatTab:CreateSlider({
-    Name = "Reach Distance",
-    Min = 5,
-    Max = 25,
-    Default = 10,
-    Increment = 0.5,
-    Suffix = " studs",
-    Flag = "ReachDist",
-    Callback = function(val)
-        print("[Combat] Reach distance:", val)
-    end
-})
-local VisualsTab = Window:CreateTab({
-    Name = "Visuals",
-    Icon = "👁"
-})
-VisualsTab:CreateSection("Entity Overlay")
-local ESPToggle = VisualsTab:CreateToggle({
-    Name = "Entity State Panel",
-    Default = false,
-    Flag = "ESP",
-    Callback = function(state)
-        print("[Visuals] ESP:", state)
-    end
-})
-local ESPColorPicker = VisualsTab:CreateColorPicker({
-    Name = "ESP Color",
-    Default = Color3.fromRGB(88, 101, 242),
-    Flag = "ESPColor",
-    Callback = function(color)
-        print("[Visuals] ESP Color:", color)
-    end
-})
-local BoxDrop = VisualsTab:CreateDropdown({
-    Name = "Box Type",
-    Options = {"2D", "3D", "Corners", "None"},
-    Default = "2D",
-    Flag = "BoxType",
-    Callback = function(opt)
-        print("[Visuals] Box type:", opt)
-    end
-})
-VisualsTab:CreateSection("Occlusion")
-local WallToggle = VisualsTab:CreateToggle({
-    Name = "Occlusion Override",
-    Default = false,
-    Flag = "WallVis",
-    Callback = function(state)
-        print("[Visuals] Occlusion override:", state)
-    end
-})
-local ChamsDrop = VisualsTab:CreateDropdown({
-    Name = "Render Mode",
-    Options = {"Highlight", "SurfaceAppearance", "Wireframe", "ForceField"},
-    Default = "Highlight",
-    Flag = "ChamsMode",
-    Callback = function(opt)
-        print("[Visuals] Render mode:", opt)
-    end
-})
-local ChamsColor = VisualsTab:CreateColorPicker({
-    Name = "Overlay Color",
-    Default = Color3.fromRGB(255, 60, 80),
-    Flag = "ChamsColor",
-    Callback = function(color)
-        print("[Visuals] Overlay color:", color)
-    end
-})
-local TransSlider = VisualsTab:CreateSlider({
-    Name = "Overlay Transparency",
-    Min = 0,
-    Max = 1,
-    Default = 0.3,
-    Increment = 0.05,
-    Suffix = "",
-    Flag = "ChamsTrans",
-    Callback = function(val)
-        print("[Visuals] Transparency:", val)
-    end
-})
-local MoveTab = Window:CreateTab({
-    Name = "Movement",
-    Icon = "🏃"
-})
-MoveTab:CreateSection("Speed")
-local SpeedToggle = MoveTab:CreateToggle({
-    Name = "Speed Modifier",
-    Default = false,
-    Flag = "Speed",
-    Callback = function(state)
-        if state then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = RexLib.Flags.SpeedVal.Value
-        else
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-        end
-    end
-})
-local SpeedSlider = MoveTab:CreateSlider({
-    Name = "Walk Speed",
-    Min = 16,
-    Max = 200,
-    Default = 32,
-    Increment = 1,
-    Flag = "SpeedVal",
-    Callback = function(val)
-        if RexLib.Flags and RexLib.Flags.Speed and RexLib.Flags.Speed.Value then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = val
-        end
-    end
-})
-MoveTab:CreateSection("Aerial")
-local FlyToggle = MoveTab:CreateToggle({
-    Name = "Flight",
-    Default = false,
-    Flag = "Fly",
-    Callback = function(state)
-        print("[Movement] Flight:", state)
-    end
-})
-local FlySpeedSlider = MoveTab:CreateSlider({
-    Name = "Flight Speed",
-    Min = 10,
-    Max = 300,
-    Default = 60,
-    Increment = 5,
-    Flag = "FlySpeed",
-    Callback = function(val)
-        print("[Movement] Flight speed:", val)
-    end
-})
-local JumpSlider = MoveTab:CreateSlider({
-    Name = "Jump Power",
-    Min = 50,
-    Max = 500,
+    Max = 100,
     Default = 50,
+    Increment = 1,
+    Suffix = "%",
+    Flag = "SpeedSlider",
+    Callback = function(value)
+        print("Speed:", value)
+    end
+})
+local distanceSlider = Tab3:CreateSlider({
+    Name = "Distance",
+    Min = 0,
+    Max = 500,
+    Default = 100,
     Increment = 10,
-    Flag = "JumpPow",
-    Callback = function(val)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = val
+    Suffix = "m",
+    Flag = "DistanceSlider",
+    Callback = function(value)
+        print("Distance:", value)
     end
 })
-
-local NoClipToggle = MoveTab:CreateToggle({
-    Name = "No Clip",
-    Default = false,
-    Flag = "Noclip",
-    Callback = function(state)
-        print("[Movement] Noclip:", state)
+Tab3:CreateSlider({
+    Name = "Precision Slider",
+    Min = 0,
+    Max = 1,
+    Default = 0.5,
+    Increment = 0.01,
+    Suffix = "",
+    Callback = function(value)
+        print("Precision value:", value)
     end
 })
-local MiscTab = Window:CreateTab({
-    Name = "Misc",
-    Icon = "🔧"
-})
-MiscTab:CreateSection("Utilities")
-MiscTab:CreateButton({
-    Name = "Rejoin Server",
+Tab3:CreateButton({
+    Name = "Set Speed to 75%",
     Callback = function()
-        RexLib:Notify({Title = "Misc", Message = "Rejoining...", Duration = 2, Type = "Warning"})
-        task.delay(1, function()
-            game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
-        end)
+        speedSlider:Set(75)
     end
 })
-MiscTab:CreateButton({
-    Name = "Copy Server Link",
+local Tab4 = Window:CreateTab({Name = "Dropdowns"})
+Tab4:CreateSection("Selection Controls")
+local weaponDropdown = Tab4:CreateDropdown({
+    Name = "Weapon",
+    Options = {"Sword", "Bow", "Staff", "Axe", "Dagger"},
+    Default = "Sword",
+    Flag = "WeaponSelect",
+    Callback = function(value)
+        print("Selected weapon:", value)
+        Segoe:Notify({
+            Message = "Weapon changed to " .. value,
+            Duration = 2
+        })
+    end
+})
+local difficultyDropdown = Tab4:CreateDropdown({
+    Name = "Difficulty",
+    Options = {"Easy", "Normal", "Hard", "Expert"},
+    Default = "Normal",
+    Callback = function(value)
+        print("Difficulty:", value)
+    end
+})
+Tab4:CreateButton({
+    Name = "Add New Weapon",
     Callback = function()
-        local jobId = game.JobId
-        setclipboard("roblox://experiences/start?placeId=" .. game.PlaceId .. "&gameInstanceId=" .. jobId)
-        RexLib:Notify({Title = "Misc", Message = "Server link copied to clipboard", Duration = 2, Type = "Success"})
+        weaponDropdown:Refresh({"Sword", "Bow", "Staff", "Axe", "Dagger", "Spear", "Mace"})
+        Segoe:Notify({Message = "Weapon list updated!", Duration = 2})
     end
 })
-MiscTab:CreateInput({
-    Name = "Teleport PlaceID",
-    Placeholder = "Enter PlaceID...",
-    Flag = "TPPlaceId",
+Tab4:CreateButton({
+    Name = "Select Staff",
+    Callback = function()
+        weaponDropdown:Set("Staff")
+    end
+})
+local Tab5 = Window:CreateTab({Name = "Inputs"})
+Tab5:CreateSection("Text & Keyboard")
+local nameInput = Tab5:CreateInput({
+    Name = "Username",
+    Placeholder = "Enter name...",
+    Default = "",
+    Flag = "UsernameInput",
     Callback = function(text)
-        local id = tonumber(text)
-        if id then
-            RexLib:Notify({Title = "Teleport", Message = "Teleporting to " .. text, Duration = 2, Type = "Info"})
-            game:GetService("TeleportService"):Teleport(id, game.Players.LocalPlayer)
-        else
-            RexLib:Notify({Title = "Error", Message = "Invalid PlaceID", Duration = 2, Type = "Error"})
+        print("Username entered:", text)
+        Segoe:Notify({
+            Message = "Username set to: " .. text,
+            Duration = 2
+        })
+    end
+})
+Tab5:CreateInput({
+    Name = "Code",
+    Placeholder = "Enter code...",
+    ClearOnFocus = true,
+    Callback = function(text)
+        if text == "1234" then
+            Segoe:Notify({
+                Title = "Success!",
+                Message = "Code accepted",
+                Type = "Success"
+            })
         end
     end
 })
-MiscTab:CreateSection("Binds")
-MiscTab:CreateKeybind({
+Tab5:CreateKeybind({
     Name = "Toggle UI",
     Default = Enum.KeyCode.RightShift,
-    Flag = "UIToggle",
+    Flag = "ToggleKey",
+    Callback = function(key)
+        print("Keybind changed to:", key.Name)
+    end,
     OnPress = function()
-        print("[Misc] UI toggle pressed")
+        print("Toggle key pressed!")
+        Segoe:Notify({Message = "UI toggle key pressed!", Duration = 1})
     end
 })
-MiscTab:CreateKeybind({
-    Name = "Panic Key (Destroy)",
-    Default = Enum.KeyCode.F9,
-    Flag = "PanicKey",
-    OnPress = function()
-        Window:Destroy()
+Tab5:CreateButton({
+    Name = "Set Name to 'Player'",
+    Callback = function()
+        nameInput:Set("Player")
     end
 })
-MiscTab:CreateSection("Info")
-MiscTab:CreateParagraph({
-    Title = "Rex Hub v2.0",
-    Content = "Built with RexLib. Minimal. Functional. No bullshit."
+local Tab6 = Window:CreateTab({Name = "Colors"})
+Tab6:CreateSection("Color Selection")
+local primaryColor = Tab6:CreateColorPicker({
+    Name = "Primary Color",
+    Default = Color3.fromRGB(88, 101, 242),
+    Flag = "PrimaryColor",
+    Callback = function(color)
+        print("Primary color:", color)
+    end
 })
-
-MiscTab:CreateLabel("Game: " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
-MiscTab:CreateLabel("Player: " .. game.Players.LocalPlayer.Name)
+Tab6:CreateColorPicker({
+    Name = "Secondary Color",
+    Default = Color3.fromRGB(240, 70, 80),
+    Callback = function(color)
+        print("Secondary color:", color)
+    end
+})
+Tab6:CreateColorPicker({
+    Name = "Accent Color",
+    Default = Color3.fromRGB(60, 200, 120),
+    Callback = function(color)
+        print("Accent color:", color)
+    end
+})
+Tab6:CreateButton({
+    Name = "Set Red Primary",
+    Callback = function()
+        primaryColor:Set(Color3.fromRGB(255, 0, 0))
+    end
+})
+Tab6:CreateButton({
+    Name = "Change Theme Accent",
+    Callback = function()
+        local newColor = Color3.fromRGB(math.random(100, 255), math.random(100, 255), math.random(100, 255))
+        Segoe:SetAccent(newColor)
+        Segoe:Notify({
+            Message = "Theme accent updated!",
+            Type = "Success",
+            Duration = 2
+        })
+    end
+})
+local Tab7 = Window:CreateTab({Name = "Advanced"})
+Tab7:CreateSection("Combined Features")
+Tab7:CreateParagraph({
+    Title = "Flag System",
+    Content = "Components with flags can be accessed globally through Segoe.Flags"
+})
+Tab7:CreateButton({
+    Name = "Print All Flags",
+    Callback = function()
+        print("=== Current Flag Values ===")
+        for flag, component in pairs(Segoe.Flags) do
+            print(flag .. ":", component.Value)
+        end
+        Segoe:Notify({
+            Message = "Flags printed to console",
+            Duration = 2
+        })
+    end
+})
+Tab7:CreateButton({
+    Name = "Random Configuration",
+    Callback = function()
+        if Segoe.Flags.SpeedSlider then
+            Segoe.Flags.SpeedSlider:Set(math.random(0, 100))
+        end
+        if Segoe.Flags.FeatureToggle then
+            Segoe.Flags.FeatureToggle:Set(math.random() > 0.5)
+        end
+        Segoe:Notify({
+            Title = "Randomized!",
+            Message = "Settings randomized",
+            Type = "Warning"
+        })
+    end
+})
+Tab7:CreateSection("Notifications")
+Tab7:CreateButton({
+    Name = "Success Notification",
+    Callback = function()
+        Segoe:Notify({
+            Title = "Success",
+            Message = "Operation completed successfully!",
+            Type = "Success",
+            Duration = 3
+        })
+    end
+})
+Tab7:CreateButton({
+    Name = "Error Notification",
+    Callback = function()
+        Segoe:Notify({
+            Title = "Error",
+            Message = "Something went wrong!",
+            Type = "Error",
+            Duration = 3
+        })
+    end
+})
+Tab7:CreateButton({
+    Name = "Warning Notification",
+    Callback = function()
+        Segoe:Notify({
+            Title = "Warning",
+            Message = "Please review your settings",
+            Type = "Warning",
+            Duration = 3
+        })
+    end
+})
+Tab7:CreateButton({
+    Name = "Simple Notification",
+    Callback = function()
+        Segoe:Notify({
+            Message = "This is a simple notification",
+            Duration = 2
+        })
+    end
+})
+local Tab8 = Window:CreateTab({Name = "Sections"})
+Tab8:CreateSection("First Section")
+Tab8:CreateLabel("Content in the first section")
+Tab8:CreateToggle({
+    Name = "Option A",
+    Default = true,
+    Callback = function(v) print("Option A:", v) end
+})
+Tab8:CreateSection("Second Section")
+Tab8:CreateLabel("Content in the second section")
+Tab8:CreateToggle({
+    Name = "Option B",
+    Default = false,
+    Callback = function(v) print("Option B:", v) end
+})
+Tab8:CreateSection("Third Section")
+Tab8:CreateLabel("Content in the third section")
+Tab8:CreateSlider({
+    Name = "Value",
+    Min = 1,
+    Max = 10,
+    Default = 5,
+    Callback = function(v) print("Value:", v) end
+})
